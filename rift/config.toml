@@ -1,0 +1,449 @@
+# rift 設定ファイル
+# このファイルを ~/.config/rift/config.toml または $HOME~/.config/rift/config.toml にコピーしてください
+
+[settings]
+# アニメーション
+# - animate: すべてのウィンドウアニメーションのマスタースイッチ
+# - animation_duration: 1回のアニメーション秒数 (>= 0.0, 一般的には 0.15–0.35)
+# - animation_fps: 1秒あたりのフレーム数 (0.0 = ディスプレイのリフレッシュレート)。60–120 推奨。
+#   ease_in_circ, ease_out_circ, ease_in_out_circ
+animate = true
+animation_duration = 0.3
+animation_fps = 120.0
+
+# Space の有効化挙動
+# - true の場合、Space は非アクティブで開始します (その Space では rift がウィンドウ管理しません)
+#   キーバインド (toggle_space_activated) で有効化を切り替える必要があります。
+# - false の場合、Space はデフォルトで管理対象になり、個別に無効化できます。
+# デフォルトは true。変更するにはコメントを外してください。
+default_disable = false
+
+# マウス/フォーカス挙動
+# - focus_follows_mouse: マウスをウィンドウ内へ移動するとフォーカスする
+# - mouse_follows_focus: フォーカス変更時に、マウスをフォーカス先ウィンドウへ移動する
+# - mouse_hides_on_focus: ウィンドウにフォーカス後、マウスカーソルを隠す
+focus_follows_mouse = true
+mouse_follows_focus = true
+mouse_hides_on_focus = false
+# focus_follows_mouse_disable_hotkey は押下中のみ focus-follows-mouse を一時停止します
+# 例: "Fn"; 省略するか null を設定すると focus-follows-mouse は常時有効のままです
+#focus_follows_mouse_disable_hotkey = "Fn"
+
+# 特定アプリがフォーカスを奪う/ワークスペース切替を引き起こすのを防ぐ
+# バンドル識別子を指定してください (例: "com.apple.Spotlight")
+# 例:
+#   "com.apple.dock", "com.apple.systemuiserver", "com.apple.SecurityAgent",
+#   "com.raycast.macos", "com.apple.Spotlight"
+auto_focus_blacklist = []
+
+# 起動時にコマンドを実行
+#
+# ヒント: rift のイベントを購読して独自スクリプトを起動できます。コマンドには
+# 以下のコンテキスト環境変数が渡されます:
+#   RIFT_EVENT_TYPE            # "workspace_changed" | "windows_changed" | "window_title_changed"
+#   RIFT_WORKSPACE_ID          # ワークスペース ID
+#   RIFT_WORKSPACE_NAME        # ワークスペース名
+#   RIFT_WORKSPACE_INDEX       # ワークスペースのインデックス (window_title_changed のみ)
+#   RIFT_WINDOW_COUNT          # ウィンドウ数 (windows_changed のみ)
+#   RIFT_WINDOWS               # カンマ区切りのウィンドウ ID (windows_changed のみ)
+#   RIFT_WINDOW_ID             # ウィンドウ ID (window_title_changed のみ)
+#   RIFT_PREVIOUS_WINDOW_TITLE # 変更前タイトル (window_title_changed のみ)
+#   RIFT_WINDOW_TITLE          # 新しいタイトル (window_title_changed のみ)
+#   RIFT_EVENT_JSON            # イベントの完全な JSON ペイロード
+#
+# 例 (sketchybar 連携):
+# run_on_start = [
+#   "rift-cli subscribe cli --event workspace_changed --command sh --args -c --args 'sketchybar --trigger rift_workspace_changed RIFT_WORKSPACE_NAME=\"$RIFT_WORKSPACE_NAME\" RIFT_WORKSPACE_ID=\"$RIFT_WORKSPACE_ID\"'",
+#   "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed RIFT_WORKSPACE_NAME=\"$RIFT_WORKSPACE_NAME\" RIFT_WINDOW_COUNT=\"$RIFT_WINDOW_COUNT\"'"
+# ]
+
+run_on_start = []
+
+# ホットリロード
+# - true の場合、rift は設定ファイルの変更を監視し自動で再読み込みします。
+# - false の場合、設定変更は rift 再起動時にのみ反映されます。
+hot_reload = true
+
+[settings.layout]
+# レイアウト種別:
+# 	- "traditional" (i3/sway 風コンテナ)
+#	- "bsp" (二分木分割),
+#   - "master_stack" (マスター領域 + スタック領域)
+# 省略時は "traditional" がデフォルトです
+#
+# 以下の `workspace_rules` セクションに何も設定がない場合、
+# これがデフォルトのレイアウトモードになります。
+# `workspace_rules` を使うとワークスペースごとに別レイアウトを設定できます。
+mode = "scrolling"
+
+# これらの設定は layout mode == "master_stack" のときのみ適用されます
+[settings.layout.master_stack]
+# マスター領域に確保する比率 (0.05..0.95)
+master_ratio = 0.6
+# マスター領域に保持するウィンドウ数 (>= 1)
+master_count = 1
+# マスター領域を配置する側 (left | right | top | bottom)
+master_side = "left"
+# マスター領域が埋まっているときの新規ウィンドウ配置先 (master | stack | focused)
+new_window_placement = "master"
+
+# これらの設定は layout mode == "scrolling" のときのみ適用されます
+[settings.layout.scrolling]
+# アクティブ列の幅 (画面幅に対する 0..1)
+column_width_ratio = 0.9
+# min_column_width_ratio / max_column_width_ratio: リサイズコマンドで使うクランプ範囲
+min_column_width_ratio = 0.3
+max_column_width_ratio = 0.9
+# フォーカス中の列の配置: "left", "center", "right"
+alignment = "center"
+# 水平方向フォーカス挙動:
+# - "niri": ナビゲーション方向に応じて必要時のみ列を表示
+# 			(上記 alignment 設定を無視します)
+# - "anchored": フォーカス列を常に `alignment` に従って配置
+focus_navigation_style = "niri"
+# scrolling レイアウトはアニメーションなしの方が扱いやすい傾向があるため、
+# 必要に応じて無効化できます
+# animate = false
+
+[settings.layout.scrolling.gestures]
+# 水平スクロールジェスチャーで列を切り替える
+enabled = true
+# 水平方向を反転する (左/右を入れ替え)
+invert_horizontal = false
+# ジェスチャーに必要な指の本数
+fingers = 3
+# true の場合、端を超えてスクロールするとワークスペース切替を発火
+propagate_to_workspace_swipe = false
+
+[settings.layout.stack]
+# スタックした各ウィンドウの見えている部分の量 (ピクセル)
+# 0.0 にすると完全に重なります。
+# 推奨: 30-50 (境界が見やすく、フォーカスも把握しやすい)
+stack_offset = 40.0
+
+# 新しいスタック作成時のデフォルト積み方向。
+# 選択肢:
+# - "perpendicular" (デフォルト): 親レイアウトに対して直交する方向を選択
+# - "same": 親レイアウトと同じ向きを使用
+# - "horizontal"/"vertical": 特定の向きを強制
+default_orientation = "perpendicular"
+
+[settings.layout.gaps]
+# ギャップ設定
+# - outer: ウィンドウと画面端の間隔
+# - inner: タイル化ウィンドウ同士の間隔
+# - per_display: ディスプレイ UUID ごとの上書き設定 (任意)
+#   指定した場合、per-display の値でデフォルト値を置き換えます
+#   (`outer` のみ、`inner` のみ、または両方を上書き可能)。
+#   キーにはディスプレイの UUID を使ってください (例: system profiler や rift CLI で取得)。
+
+[settings.layout.gaps.outer]
+top = 3
+left = 3
+bottom = 3
+right = 3
+
+[settings.layout.gaps.inner]
+horizontal = 3
+vertical = 3
+
+# ディスプレイ別上書き設定の例:
+# 引用符付きキーをあなたのディスプレイ UUID に置き換えてください。上書きしたい値だけ指定します。
+# [settings.layout.gaps.per_display."11111111-2222-3333-4444-555555555555".outer]
+# top = 20
+# left = 20
+# bottom = 20
+# right = 20
+#
+# [settings.layout.gaps.per_display."11111111-2222-3333-4444-555555555555".inner]
+# horizontal = 8
+# vertical = 8
+[settings.ui.menu_bar]
+# メニューバーのワークスペースインジケーターを有効化
+enabled = true
+# 有効時、空のワークスペースも含めて表示します。これは
+# メニューバーを圧迫し、macOS によって自動的に隠されやすいため既定では無効です
+show_empty = false
+# すべてのワークスペースを描画するか、アクティブのみ描画するかを選択
+mode = "all"
+# ワークスペースをラベル表示する場合 ("index" または "name")、どちらを表示するか選択
+active_label = "index"
+# ワークスペース表示時に、レイアウトプレビューかラベル集合のどちらを描画するか
+# 選択肢: "layout" または "label"
+display_style = "layout"
+
+[settings.ui.stack_line]
+# 実験的なスタックラインインジケーター (既定はオフ)
+enabled = true
+# 水平スタックでラインを置く位置 (top/bottom)
+horiz_placement = "top"
+# 垂直スタックでラインを置く位置 (left/right)
+vert_placement = "left"
+# インジケーターの太さ (px)
+thickness = 20.0
+# スタックラインとウィンドウ端の間隔 (px)
+spacing = 1.0
+
+# 実験的なミッションコントロール
+[settings.ui.mission_control]
+enabled = true
+# ミッションコントロール入退場時のフェードアニメーションを有効化
+fade_enabled = true
+# macOS ネイティブの Mission Control フェードは約 180ms
+fade_duration_ms = 180.0
+
+# トラックパッドジェスチャー
+[settings.gestures]
+# 水平スワイプで仮想ワークスペースを切り替える
+enabled = true
+# 水平方向を反転する (次/前を入れ替え)
+invert_horizontal_swipe = false
+# 水平スワイプとして認識するために許容する最大垂直移動量。
+# 正規化比率 (0..1) またはパーセント (0..100) を指定。例: 0.4 または 40.0
+swipe_vertical_tolerance = 0.4
+# スワイプ時に空のワークスペースをスキップ
+skip_empty = true
+# スワイプに必要な指の本数
+fingers = 4
+# NSTouch ベース検出でスワイプ成立に必要な水平距離 (正規化 0..1)
+distance_pct = 0.08
+# 確定時のハプティクスフィードバック (generic | alignment | level_change)
+haptics_enabled = true
+haptic_pattern = "level_change"
+
+# ウィンドウスナップ / ドラッグ入れ替え挙動
+[settings.window_snapping]
+# ドラッグ中に入れ替えを発生させるために、候補ウィンドウと
+# どれだけ重なっている必要があるかを示す面積比率しきい値 (0.0..1.0)。
+# 一般的には 0.2–0.4 程度を使います。
+# より積極的に入れ替えたい場合は値を下げ、
+# さらに重なりを要求したい場合は値を上げてください。
+drag_swap_fraction = 0.3
+
+[virtual_workspaces]
+# 仮想ワークスペース
+# - enabled: false の場合、rift は単一 Space のシンプルなタイル WM として動作
+# - default_workspace_count: 起動時に作成するワークスペース数 (1–32)
+# - auto_assign_windows: true の場合、app_rules による新規ウィンドウ自動割り当てを有効化
+# - preserve_focus_per_workspace: ワークスペースごとに最後のフォーカスウィンドウを記憶
+# - workspace_auto_back_and_forth: 有効時、すでにアクティブな同じワークスペースへ
+#   切り替えようとすると、代わりに直前のワークスペースへ戻る
+# - reapply_app_rules_on_title_change: true の場合、ウィンドウタイトル変更時に app ルールを再評価
+enabled = true
+default_workspace_count = 4
+auto_assign_windows = true
+preserve_focus_per_workspace = true
+workspace_auto_back_and_forth = false
+reapply_app_rules_on_title_change = false
+
+# ワークスペース固有ルール
+# - workspace: 対象ワークスペース (インデックス整数 または 名前文字列)
+# - layout: 使用するレイアウトモード ("traditional", "bsp", "master_stack", "scrolling")
+# workspace_rules = [
+#   { workspace = 1, layout = "bsp" },
+#   { workspace = "second", layout = "scrolling" }
+# ]
+workspace_rules = []
+
+
+# 起動時に有効化するデフォルトワークスペース (0 始まりインデックス)。
+# 省略時は 0 (最初のワークスペース)。default_workspace_count 未満である必要があります。
+# 変更するにはコメントを外してください:
+# default_workspace = 0
+
+# ワークスペース名 (インデックス順)。default_workspace_count より少ない場合、
+# 残りのワークスペース名は "Workspace X" になります。
+# default_workspace_count より多く名前を指定しないでください。
+workspace_names = [
+	"first",
+	"second"
+]
+
+# アプリルール (自動割り当て)
+# 新規ウィンドウにマッチするルールを定義し、プロパティ (workspace, floating など) を設定します。
+#
+# マッチ対象フィールド:
+#   - app_id         : アプリのバンドル識別子との完全一致
+#   - app_name       : アプリ名への部分一致
+#   - title_regex    : ウィンドウタイトルに対する正規表現マッチ
+#   - title_substring: タイトルへのリテラル部分一致 (大文字小文字を区別)
+#   - ax_role / ax_subrole: macOS アクセシビリティ (AX) role/subrole への完全一致
+#
+# ルールオプション:
+#   - workspace (整数, 0 始まり): 対象ワークスペースのインデックス。省略または不正な場合はアクティブワークスペースを使用。
+#     あるいは `workspace` にワークスペース名文字列を指定して名前で対象指定できます。
+#   - floating (boolean): マッチしたウィンドウをデフォルトでフロート表示するか。
+#   - manage (boolean): マッチしたウィンドウを Rift が管理するか。false で完全に無視します (デフォルト = true)。
+#
+# マッチ挙動 (要約):
+#   1. ウィンドウに一致するすべてのルールを評価します。
+#   2. 一致ルールのうち、同じ非空 `app_id` を共有するルールが複数ある場合、
+#      指定条件が最も多いルール (非空フィールド数が最大) が優先されます。
+#      同点の場合はファイル内で先に書かれたルールが優先されます。
+#   3. 一致ルールが同じ `app_id` を共有しない場合は、
+#      特異性 (非空フィールド数) が最も高いルールを選択し、同点は記述順で決まります。
+#   4. 1つのルール内では、指定された全フィールドは AND 条件で結合されます:
+#      非空フィールドがすべて一致したときだけルールが一致します。
+#
+# ヒント:
+#   - 特定アプリに例外を作るには、より具体的なルールを一般的な `app_id` ルールより前に配置します。例:
+#       app_rules = [
+#         { app_id = "com.example.X", title_regex = "Dialog", floating = true },
+#         { app_id = "com.example.X", floating = false },
+#       ]
+#
+#   - 単純なリテラル部分一致 (大文字小文字区別あり) は `title_substring` を使います。
+#     高度なパターンには `title_regex` を使います。
+#
+# アクセシビリティ (AX) マッチ:
+#   - `ax_role` と `ax_subrole` は macOS が報告する AX 値に完全一致します
+#     (例: "AXWindow", "AXDialog", "AXSystemDialog", "AXToolbar")。
+#   - バンドル名/アプリ名/タイトルだけでは不十分な場合に、ダイアログ・シート・ツールバーなどを区別するのに有用です。
+#
+# バリデーション:
+#   - `title_regex` は有効な正規表現である必要があります。無効な正規表現は
+#     ルールが無視され、警告ログが出力されます。
+#
+# 例:
+#   - タイトルに "Preferences" を含むウィンドウをフロート表示:
+#       app_rules = [
+#         { title_substring = "Preferences", floating = true },
+#       ]
+#
+#   - アプリ名の部分一致 + ワークスペース指定:
+#       app_rules = [
+#         { app_name = "Calendar", workspace = 2, floating = true },
+#       ]
+#
+#   - アクセシビリティの例: 特定アプリのダイアログウィンドウをフロート表示:
+#       app_rules = [
+#         { app_id = "com.example.X", ax_subrole = "AXDialog", floating = true },
+#       ]
+#
+# デフォルトでは app ルールはありません。必要に応じて下のルールを追加またはコメント解除してください。
+app_rules = []
+
+# キーバインドで再利用できる修飾キー組み合わせ
+# よく使う組み合わせを定義して重複記述を避けます。
+# 使用例: `comb1 = "Alt + Shift"` を定義すると、
+#   "comb1 + H" = { move_node = "left" } のように書けます
+[modifier_combinations]
+comb1 = "Alt + Shift"
+
+[keys]
+# キーバインド構文
+# - キーは引用符で囲みます: "Alt + Shift + H"
+# - 対応修飾キー: Alt, Ctrl, Shift, Meta (Meta = macOS の Command ⌘)
+# - 矢印キーは ArrowUp/ArrowDown/ArrowLeft/ArrowRight、または Up/Down/Left/Right と書けます
+# - 空白は柔軟です: "Alt+Down" と "Alt + Down" は同義
+# - キー値はコマンドへ対応付けされます (下記一覧を参照)
+
+# コマンド
+# - toggle_space_activated
+# - next_workspace / prev_workspace
+# - next_workspace = true|false (空ワークスペーススキップ設定の一時上書き)
+# - prev_workspace = true|false (空ワークスペーススキップ設定の一時上書き)
+# - switch_to_workspace = N
+# - move_window_to_workspace = N / move_window_to_workspace = { workspace = N, window_id = 123 } (window id は任意)
+# - create_workspace
+# - switch_to_last_workspace
+# - set_workspace_layout = { mode = "traditional"|"bsp"|"master_stack"|"scrolling" } (アクティブワークスペース)
+# - set_workspace_layout = { workspace = N, mode = "traditional"|"bsp"|"master_stack"|"scrolling" }
+# - next_window / prev_window (現在ワークスペースの最後まで行くとフォーカスが循環)
+# - ascend / descend
+# - move_focus = "left"|"right"|"up"|"down"
+# - move_node = "left"|"right"|"up"|"down"
+# - join_window = "left"|"right"|"up"|"down"
+# - toggle_stack / toggle_orientation / unjoin_windows
+# - toggle_focus_floating / toggle_window_floating / toggle_fullscreen / toggle_fullscreen_within_gaps
+# - resize_window_grow / resize_window_shrink / resize_window_by = 0.05
+# - swap_windows = [123, 456]
+# - exec = "command" | exec = ["cmd", "arg1", "..."]
+# - move_mouse_to_display = "left"|"right"|"up"|"down"|N|"<display_uuid>"
+# - move_window_to_display = { selector = "left"|"right"|"up"|"down"|N|"<display_uuid>", window_id = 123 }
+# - close_window = { window_server_id = 123 }
+# - focus_window = { window_id = 123, window_server_id = 456 }
+# - show_mission_control_all / show_mission_control_current / dismiss_mission_control (これは macOS ではなく rift 独自の mission control)
+
+# 以下のコマンドは master stack レイアウトが有効なときのみ動作
+# - adjust_master_ratio = 0.05 / adjust_master_count = 1
+# - promote_to_master / swap_master_stack
+
+# 以下のコマンドは scrolling レイアウトが有効なときのみ動作
+# - scroll_strip = { delta = 0.5 }
+# - snap_strip / center_selection
+
+"Alt + Z" = "toggle_space_activated"
+
+"Alt + H" = { move_focus = "left" }
+"Alt + J" = { move_focus = "down" }
+"Alt + K" = { move_focus = "up" }
+"Alt + L" = { move_focus = "right" }
+
+"comb1 + H" = { move_node = "left" }
+"comb1 + J" = { move_node = "down" }
+"comb1 + K" = { move_node = "up" }
+"comb1 + L" = { move_node = "right" }
+
+"Alt + 0" = { switch_to_workspace = 0 }
+"Alt + 1" = { switch_to_workspace = 1 }
+"Alt + 2" = { switch_to_workspace = 2 }
+"Alt + 3" = { switch_to_workspace = 3 }
+
+"comb1 + 0" = { move_window_to_workspace = 0 }
+"comb1 + 1" = { move_window_to_workspace = 1 }
+"comb1 + 2" = { move_window_to_workspace = 2 }
+"comb1 + 3" = { move_window_to_workspace = 3 }
+
+"Alt + Tab" = "switch_to_last_workspace"
+
+# アクティブワークスペースのレイアウトエンジンを変更するコマンド
+"Alt + Ctrl + 1" = { set_workspace_layout = { mode = "traditional" } }
+"Alt + Ctrl + 2" = { set_workspace_layout = { mode = "bsp" } }
+"Alt + Ctrl + 3" = { set_workspace_layout = { mode = "master_stack" } }
+"Alt + Ctrl + 4" = { set_workspace_layout = { mode = "scrolling" } }
+
+"Alt + Shift + Left" = { join_window = "left" }
+"Alt + Shift + Right" = { join_window = "right" }
+"Alt + Shift + Up" = { join_window = "up" }
+"Alt + Shift + Down" = { join_window = "down" }
+"Alt + Comma" = "toggle_stack"
+"Alt + Slash" = "toggle_orientation"
+"Alt + Ctrl + E" = "unjoin_windows"
+
+"Alt + Shift + Space" = "toggle_window_floating"
+"Alt + F" = "toggle_fullscreen"
+"Alt + Shift + F" = "toggle_fullscreen_within_gaps"
+"comb1 + Ctrl + Space" = "toggle_focus_floating" # 一時的にフォーカスをフローティングウィンドウへ移す
+
+# ウィンドウをスマートにリサイズ
+"Alt + Shift + Equal" = "resize_window_grow"
+"Alt + Shift + Minus" = "resize_window_shrink"
+
+# ディスプレイをインデックス (0 始まり) または UUID で指定してマウスカーソルを移動
+# 例:
+# "Alt + Shift + A" = { move_mouse_to_display = 0 }
+# "Alt + Shift + S" = { move_mouse_to_display = 1 }
+# "Alt + Shift + D" = { move_mouse_to_display = "e9a4f5a1-2f8b-45c1-9f4e-5a6b7c8d9e0f" }
+# 別ディスプレイへフォーカス (方向/インデックス/uuid)
+# "Alt + Shift + F" = { focus_display = "right" }
+
+# ウィンドウを別ディスプレイへ移動 (インデックス、UUID、または方向指定)
+# "Alt + Ctrl + Up" = { move_window_to_display = { selector = "up" } }
+# "Alt + Ctrl + Down" = { move_window_to_display = { selector = "down" } }
+# "Alt + Ctrl + Left" = { move_window_to_display = { selector = "left" } }
+# "Alt + Ctrl + Right" = { move_window_to_display = { selector = "right" } }
+# "Alt + Ctrl + A" = { move_window_to_display = { selector = 0 } }
+
+# mission control が有効な場合
+# これはアクティブワークスペースのウィンドウを展開表示します
+"Alt + Ctrl + Shift + M" = "show_mission_control_current"
+# これは readme にある mission control 表示を出します
+"Alt + Ctrl + M" = "show_mission_control_all"
+
+"Alt + Enter" = { "exec" = ["/bin/bash", "-c", "open -a \"/Applications/Ghostty.app\""] }
+
+"Alt + Shift + D" = "debug" # レイアウトツリーを出力
+
+"Alt + Ctrl + S" = "serialize"
+"Alt + Ctrl + Q" = "save_and_exit"

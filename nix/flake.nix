@@ -26,18 +26,10 @@
           inherit inputs username;
         };
         modules = [
-          ./modules/darwin/base.nix
-          ./modules/darwin/homebrew.nix
+          ./nix-darwin/base.nix
+          ./nix-darwin/homebrew.nix
           home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.sharedModules = [
-              ./modules/home-manager/base.nix
-            ];
-            home-manager.users.${username} = import ./homes/${username}/default.nix;
-          }
+          ./home-manager/default.nix
           ./host.nix
         ];
       };

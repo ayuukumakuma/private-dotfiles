@@ -1,25 +1,26 @@
-{ pkgs, username, ... }:
+{ lib, pkgs, username, ... }:
 
 {
-  # Determinate manages Nix installation/daemon; disable nix-darwin's Nix management.
+  # Nix installation/daemon is managed outside nix-darwin (via nix-installer).
   nix.enable = false;
 
   nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "1password-cli"
+    ];
 
-  users.users.${username}.home = "/Users/${username}";
+  users.users.${username} = {
+    home = "/Users/${username}";
+    shell = pkgs.fish;
+  };
 
-  environment.systemPackages = with pkgs; [
-    bat
-    curl
-    fd
-    git
-    jq
-    ripgrep
-    tree
-    wget
+  # Required when login shell is fish; nix-darwin asserts this and configures fish paths/shell registration.
+  programs.fish.enable = true;
+
+  fonts.packages = with pkgs; [
+    hackgen-nf-font
   ];
-
-  programs.zsh.enable = true;
 
   security.pam.services.sudo_local.touchIdAuth = true;
 

@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  networking.hostName = "nasunoayumunoMacBook-Air";
+  networking.hostName = "ayuu-mac";
 }
