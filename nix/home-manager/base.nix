@@ -21,18 +21,21 @@
     enable = true;
     interactiveShellInit = ''
       set -g fish_greeting ""
-
-      function __ghq_fzf_cd
-        set -l selected_repo (ghq list --full-path | fzf --height=80% --layout=reverse --preview 'if test -f {}/README.md; bat --style=plain --color=always {}/README.md; else if test -f {}/README; bat --style=plain --color=always {}/README; else git -C {} remote -v | bat --style=plain --color=always --language=gitconfig; end; end')
+    '';
+    functions = {
+      __ghq_fzf_cd = ''
+        set -l preview_cmd 'set -l repo {}; set -l readme_md "$repo/README.md"; set -l readme "$repo/README"; if test -f "$readme_md"; bat --style=plain --color=always --language=markdown "$readme_md"; else if test -f "$readme"; bat --style=plain --color=always --language=markdown "$readme"; else git -C "$repo" remote -v | bat --style=plain --color=always --language=gitconfig; end'
+        set -l selected_repo (ghq list --full-path | fzf --height=80% --layout=reverse --preview "$preview_cmd")
 
         if test -n "$selected_repo"
           cd "$selected_repo"
           commandline -f repaint
         end
-      end
-
-      bind \cg __ghq_fzf_cd
-    '';
+      '';
+      fish_user_key_bindings = ''
+        bind \cg __ghq_fzf_cd
+      '';
+    };
     shellAbbrs = {
       g = "git";
       co = "codex";
