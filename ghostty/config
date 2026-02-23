@@ -1,0 +1,13 @@
+font-family = "HackGen Console NF"
+font-thicken = true
+theme = "Catppuccin Frappe"
+background-opacity = 0.7
+mouse-hide-while-typing = true
+maximize = true
+quick-terminal-position = "top"
+quick-terminal-screen = "mouse"
+shell-integration = "fish"
+shell-integration-features = true
+macos-window-buttons = "hidden"
+macos-icon = "xray"
+desktop-notifications = true

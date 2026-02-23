@@ -26,6 +26,7 @@
       g = "git";
       co = "codex";
       reload = "exec fish -l";
+      c = "clear";
     };
   };
 
@@ -34,8 +35,39 @@
     lfs.enable = true;
 
     settings = {
+      color = {
+        ui = true;
+      };
+      core = {
+        editor = "nvim";
+        diff = "delta";
+      };
+      merge = {
+        conflictStyle = "zdiff3";
+      };
+      commit = {
+        gpgsign = true;
+      };
+      push = {
+        autoSetupRemote = true;
+      };
+      delta = {
+        navigate = true;
+        dark = true;
+        side-by-side = true;
+        line-numbers = true;
+      };
       init.defaultBranch = "main";
-      pull.rebase = false;
+      pull.ff = "only";
+      gpg = {
+        format = "ssh";
+      };
+      "gpg \"ssh\"" = {
+        program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+      };
+      include = {
+        path = "~/.config/git/config.local";
+      };
     };
   };
 

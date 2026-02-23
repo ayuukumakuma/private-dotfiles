@@ -28,6 +28,9 @@
       "codex"
       "raycast"
       "altserver"
+      "ghostty"
+      "spotify"
+      "rekordbox"
     ];
 
     masApps = {

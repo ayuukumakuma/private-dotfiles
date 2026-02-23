@@ -1,0 +1,30 @@
+{
+  "show_whitespaces": "all",
+  "tab_size": 2,
+  "agent_ui_font_size": 14.0,
+  "buffer_font_family": "HackGen Console NF",
+  "icon_theme": "Catppuccin Frappé",
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 13.0,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Catppuccin Frappé"
+  },
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "html": true,
+    "nix": true,
+    "catppuccin-icons": true,
+    "git-firefly": true,
+    "toml": true
+  }
+}
