@@ -21,6 +21,17 @@
     enable = true;
     interactiveShellInit = ''
       set -g fish_greeting ""
+
+      function __ghq_fzf_cd
+        set -l selected_repo (ghq list --full-path | fzf --height=80% --layout=reverse --preview 'if test -f {}/README.md; bat --style=plain --color=always {}/README.md; else if test -f {}/README; bat --style=plain --color=always {}/README; else git -C {} remote -v | bat --style=plain --color=always --language=gitconfig; end; end')
+
+        if test -n "$selected_repo"
+          cd "$selected_repo"
+          commandline -f repaint
+        end
+      end
+
+      bind \cg __ghq_fzf_cd
     '';
     shellAbbrs = {
       g = "git";
