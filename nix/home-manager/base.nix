@@ -7,9 +7,9 @@
     curl
     wget
     ghq
-    _1password-cli
     nil
     nixd
+    neovim
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces
@@ -123,4 +123,5 @@
 
   programs.jq.enable = true;
   programs.ripgrep.enable = true;
+  programs.discord.enable = true;
 }
