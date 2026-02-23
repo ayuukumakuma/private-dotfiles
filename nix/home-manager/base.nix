@@ -49,6 +49,13 @@
     lfs.enable = true;
 
     settings = {
+      alias = {
+        a = "add";
+        c = "commit";
+        ps = "push";
+        p = "pull";
+        f = "fetch";
+      };
       color = {
         ui = true;
       };
