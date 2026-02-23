@@ -73,9 +73,7 @@
     ];
   };
 
-  programs.gh = {
-    enable = true;
-  };
+  programs.gh.enable = true;
 
   programs.fd = {
     enable = true;
@@ -91,11 +89,6 @@
     theme = "catppuccin-frappe";
   };
 
-  programs.jq = {
-    enable = true;
-  };
-
-  programs.ripgrep = {
-    enable = true;
-  };
+  programs.jq.enable = true;
+  programs.ripgrep.enable = true;
 }

@@ -27,6 +27,7 @@
       "1password"
       "codex"
       "raycast"
+      "altserver"
     ];
 
     masApps = {
