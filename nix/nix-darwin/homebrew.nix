@@ -24,6 +24,7 @@
     ];
 
     casks = [
+      "azooKey"
       "codex"
       "raycast"
       "altserver"

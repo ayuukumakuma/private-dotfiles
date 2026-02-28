@@ -123,6 +123,7 @@
       "catppuccin-icons"
       "toml"
       "git-firefly"
+      "tombi"
     ];
   };
 
