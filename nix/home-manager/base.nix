@@ -10,6 +10,8 @@
     nil
     nixd
     neovim
+    nodejs_25
+    bun
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces
@@ -146,4 +148,14 @@
   programs.jq.enable = true;
   programs.ripgrep.enable = true;
   programs.discord.enable = true;
+
+  programs.sketchybar = {
+    enable = true;
+    service.enable = true;
+    configType = "bash";
+    config = {
+      source = ../../sketchybar;
+      recursive = true;
+    };
+  };
 }

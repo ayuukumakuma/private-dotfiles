@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+ICON_RIFT=""
+ICON_FRONT_APP=""
+ICON_SPOTIFY=""
+ICON_CLOCK=""
+ICON_BATTERY=""
+ICON_INPUT_SOURCE=""
+
+bar=(
+  height=32
+  position=top
+  sticky=on
+  topmost=window
+  padding_left=10
+  padding_right=10
+  color=0xff1f2335
+)
+
+defaults=(
+  icon.font="HackGen35 Console NF:Bold:14.0"
+  icon.color=0xffcad3f5
+  icon.padding_left=8
+  icon.padding_right=6
+  label.font="HackGen35 Console NF:Regular:12.0"
+  label.color=0xffa9b1d6
+  label.padding_left=0
+  label.padding_right=10
+  background.height=24
+  background.corner_radius=6
+  updates=when_shown
+)
+
+sketchybar --bar "${bar[@]}" \
+  --default "${defaults[@]}"
+
+sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
+
+sketchybar --add item rift left \
+  --set rift \
+    icon="$ICON_RIFT" \
+    icon.color=0xff7aa2f7 \
+    icon.padding_left=10 \
+    icon.padding_right=8 \
+    label.padding_left=4 \
+    label.padding_right=12 \
+    script="$PLUGIN_DIR/rift.sh" \
+    update_freq=5 \
+    drawing=off \
+    background.drawing=on \
+    background.color=0x333a4a6a \
+    background.padding_left=4 \
+    background.padding_right=4 \
+  --subscribe rift system_woke
+
+sketchybar --add item front_app left \
+  --set front_app \
+    icon="$ICON_FRONT_APP" \
+    icon.color=0xffc0caf5 \
+    script="$PLUGIN_DIR/front_app.sh" \
+  --subscribe front_app front_app_switched system_woke
+
+# Right items are rendered from edge inward, so add clock first to keep it at the far right.
+sketchybar --add item clock right \
+  --set clock \
+    icon="$ICON_CLOCK" \
+    icon.color=0xffe0af68 \
+    script="$PLUGIN_DIR/clock.sh" \
+    update_freq=10
+
+sketchybar --add item battery right \
+  --set battery \
+    icon="$ICON_BATTERY" \
+    icon.color=0xfff5a97f \
+    script="$PLUGIN_DIR/battery.sh" \
+    update_freq=30 \
+    background.drawing=on \
+    background.color=0x333a4a6a \
+  --subscribe battery power_source_change system_woke
+
+sketchybar --add item input_source right \
+  --set input_source \
+    icon="$ICON_INPUT_SOURCE" \
+    icon.font="HackGen35 Console NF:Bold:14.0" \
+    icon.color=0xff7dcfff \
+    label="A" \
+    script="$PLUGIN_DIR/input_source.sh" \
+    update_freq=3 \
+    label.padding_left=2 \
+    label.padding_right=8 \
+    background.drawing=on \
+    background.color=0x33242a3f \
+  --subscribe input_source system_woke
+
+sketchybar --add item spotify right \
+  --set spotify \
+    icon="$ICON_SPOTIFY" \
+    icon.color=0xff9ece6a \
+    script="$PLUGIN_DIR/spotify.sh" \
+    click_script="$PLUGIN_DIR/spotify.sh --toggle" \
+    update_freq=15 \
+    updates=on \
+    drawing=off \
+    scroll_texts=off \
+    label.scroll_duration=600 \
+    label.max_chars=34 \
+    background.drawing=on \
+    background.color=0x33304945 \
+  --subscribe spotify spotify_change media_change system_woke
+
+sketchybar --update
