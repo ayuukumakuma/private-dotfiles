@@ -2,3 +2,5 @@
     name = Your Name
     email = you@example.com
     signingkey = Your Signing Key
+[ghq]
+    user = ayuukumakuma
