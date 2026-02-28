@@ -4,72 +4,57 @@ set -u
 
 LABEL_ENGLISH="A"
 LABEL_JAPANESE="あ"
-PLIST_PATH="${PLIST_PATH:-$HOME/Library/Preferences/com.apple.HIToolbox.plist}"
+JAPANESE_KEYWORDS=(
+  "inputmethod.japanese"
+  "kotoeri"
+  "hiragana"
+  "katakana"
+  "azookey"
+  "japanese"
+)
 
-read_plist_key() {
-  local key_path="$1"
+resolve_macism_bin() {
+  local candidate
+  local user_name="${USER:-$(id -un 2>/dev/null || true)}"
 
-  /usr/libexec/PlistBuddy -c "Print ${key_path}" "$PLIST_PATH" 2>/dev/null || true
-}
+  for candidate in \
+    "${MACISM_BIN:-}" \
+    "$(command -v macism 2>/dev/null || true)" \
+    "${user_name:+/etc/profiles/per-user/${user_name}/bin/macism}" \
+    "$HOME/.nix-profile/bin/macism" \
+    "/run/current-system/sw/bin/macism" \
+    "/nix/var/nix/profiles/default/bin/macism"; do
+    [[ -n "$candidate" && -x "$candidate" ]] || continue
+    printf '%s\n' "$candidate"
+    return 0
+  done
 
-read_defaults() {
-  local key="$1"
-
-  defaults read com.apple.HIToolbox "$key" 2>/dev/null || true
+  return 1
 }
 
 is_japanese_context() {
   local value="$1"
-  local normalized
+  local normalized keyword
 
   normalized="$(printf '%s' "$value" | tr '[:upper:]' '[:lower:]')"
-  [[ "$normalized" == *"inputmethod.japanese"* || "$normalized" == *"kotoeri"* || "$normalized" == *"hiragana"* || "$normalized" == *"katakana"* || "$normalized" == *"azookey"* || "$normalized" == *"japanese"* ]]
-}
 
-has_context_value() {
-  local value="$1"
+  for keyword in "${JAPANESE_KEYWORDS[@]}"; do
+    [[ "$normalized" == *"$keyword"* ]] && return 0
+  done
 
-  [[ -n "${value//[[:space:]]/}" ]]
-}
-
-collect_primary_context() {
-  local selected_kind selected_mode selected_bundle selected_layout
-  local current_input_source_id current_layout_source_id
-
-  selected_kind="$(read_plist_key ":AppleSelectedInputSources:0:InputSourceKind")"
-  selected_mode="$(read_plist_key ":AppleSelectedInputSources:0:'Input Mode'")"
-  selected_bundle="$(read_plist_key ":AppleSelectedInputSources:0:'Bundle ID'")"
-  selected_layout="$(read_plist_key ":AppleSelectedInputSources:0:'KeyboardLayout Name'")"
-
-  current_input_source_id="$(read_defaults AppleCurrentInputSourceID)"
-  current_layout_source_id="$(read_defaults AppleCurrentKeyboardLayoutInputSourceID)"
-
-  printf '%s %s %s %s %s %s\n' \
-    "$selected_kind" \
-    "$selected_mode" \
-    "$selected_bundle" \
-    "$selected_layout" \
-    "$current_input_source_id" \
-    "$current_layout_source_id"
-}
-
-collect_history_context() {
-  printf '%s %s %s %s\n' \
-    "$(read_plist_key ":AppleInputSourceHistory:0:InputSourceKind")" \
-    "$(read_plist_key ":AppleInputSourceHistory:0:'Input Mode'")" \
-    "$(read_plist_key ":AppleInputSourceHistory:0:'Bundle ID'")" \
-    "$(read_plist_key ":AppleInputSourceHistory:0:'KeyboardLayout Name'")"
+  return 1
 }
 
 item_name="${NAME:-input_source}"
-context="$(collect_history_context)"
 label="$LABEL_ENGLISH"
+macism_bin="$(resolve_macism_bin || true)"
+source_id=""
 
-if ! has_context_value "$context"; then
-  context="$(collect_primary_context)"
+if [[ -n "$macism_bin" ]]; then
+  source_id="$("$macism_bin" 2>/dev/null || true)"
 fi
 
-if is_japanese_context "$context"; then
+if is_japanese_context "$source_id"; then
   label="$LABEL_JAPANESE"
 fi
 

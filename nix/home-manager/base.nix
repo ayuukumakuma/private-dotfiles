@@ -12,6 +12,7 @@
     neovim
     nodejs_25
     bun
+    macism
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces
