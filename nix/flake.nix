@@ -2,24 +2,26 @@
   description = "Declarative macOS setup for ayuu";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs@{ nix-darwin, home-manager, ... }:
+  outputs =
+    inputs@{ nix-darwin, home-manager, ... }:
     let
       system = "aarch64-darwin";
       username = "ayuu";
-    in {
+    in
+    {
       darwinConfigurations.ayuu-mac = nix-darwin.lib.darwinSystem {
         inherit system;
         specialArgs = {

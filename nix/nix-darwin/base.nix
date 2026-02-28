@@ -96,6 +96,8 @@
         AppleShowAllExtensions = true;
         # 隠しファイルを表示する。
         AppleShowAllFiles = true;
+        # メニューバーを自動的に隠す。
+        _HIHideMenuBar = true;
         # キーリピート開始までの遅延を設定する。
         InitialKeyRepeat = 15;
         # キーリピート速度を設定する。
@@ -230,10 +232,8 @@
         TrackpadTwoFingerFromRightEdgeSwipeGesture = 3;
       };
 
-      universalaccess = {
-        # マウスカーソルサイズを拡大する（`1.0` 標準、`4.0` 最大）。
-        mouseDriverCursorSize = 2.0;
-      };
+      # `com.apple.universalaccess` への defaults 書き込みが失敗して
+      # switch 全体が中断されることがあるため、カーソルサイズは GUI 側で管理する。
     };
   };
 }
