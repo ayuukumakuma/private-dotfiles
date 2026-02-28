@@ -1,4 +1,9 @@
 {
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
   "show_whitespaces": "all",
   "tab_size": 2,
   "agent_ui_font_size": 14.0,
@@ -25,6 +30,7 @@
     "nix": true,
     "catppuccin-icons": true,
     "git-firefly": true,
-    "toml": true
+    "toml": true,
+    "tombi": true
   }
 }
