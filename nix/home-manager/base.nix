@@ -6,6 +6,7 @@
   home.packages = with pkgs; [
     curl
     wget
+    (callPackage ../pkgs/site2skill.nix { })
     ghq
     nil
     nixd
@@ -13,6 +14,7 @@
     nodejs_25
     bun
     macism
+    jnv
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces
@@ -127,7 +129,29 @@
       "toml"
       "git-firefly"
       "tombi"
+      "kconfig"
     ];
+    userSettings = {
+      "vim_mode" = true;
+      "autosave" = {
+        "after_delay" = {
+          "milliseconds" = 1000;
+        };
+      };
+      "tab_size" = 2;
+      "buffer_font_family" = "HackGen Console NF";
+      "icon_theme" = "Catppuccin Frappé";
+      "telemetry" = {
+        "diagnostics" = false;
+        "metrics" = false;
+      };
+      "session" = {
+        "trust_all_worktrees" = true;
+      };
+      "ui_font_size" = 16;
+      "buffer_font_size" = 13;
+      "theme" = "Catppuccin Frappé";
+    };
   };
 
   programs.gh.enable = true;
