@@ -1,0 +1,346 @@
+---
+title: "Config · acsandmann/rift Wiki · GitHub"
+source_url: "https://github.com/acsandmann/rift/wiki/Config/27dfed3b12bbfdb9f2f7b71f1ecb5a2c9b17ef2e"
+fetched_at: "2026-03-08T06:38:58.794516+00:00"
+---
+
+
+
+[acsandmann](https://github.com/acsandmann)
+/
+**[rift](https://github.com/acsandmann/rift)**
+Public
+
+* ### Uh oh!
+
+  There was an error while loading. [Please reload this page](https://github.com/acsandmann/rift/wiki/Config/27dfed3b12bbfdb9f2f7b71f1ecb5a2c9b17ef2e.html).
+* [Notifications](https://github.com/login?return_to=%2Facsandmann%2Frift) You must be signed in to change notification settings
+* [Fork
+  47](https://github.com/login?return_to=%2Facsandmann%2Frift)
+* [Star
+   1.6k](https://github.com/login?return_to=%2Facsandmann%2Frift)
+
+* [Code](https://github.com/acsandmann/rift)
+* [Issues
+  44](https://github.com/acsandmann/rift/issues)
+* [Pull requests
+  8](https://github.com/acsandmann/rift/pulls)
+* [Discussions](https://github.com/acsandmann/rift/discussions)
+* [Actions](https://github.com/acsandmann/rift/actions)
+* [Projects](https://github.com/acsandmann/rift/projects)
+* [Wiki](https://github.com/acsandmann/rift/wiki.html)
+* [Security
+  0](https://github.com/acsandmann/rift/security)
+* [Insights](https://github.com/acsandmann/rift/pulse)
+
+Additional navigation options
+
+* [Code](https://github.com/acsandmann/rift)
+* [Issues](https://github.com/acsandmann/rift/issues)
+* [Pull requests](https://github.com/acsandmann/rift/pulls)
+* [Discussions](https://github.com/acsandmann/rift/discussions)
+* [Actions](https://github.com/acsandmann/rift/actions)
+* [Projects](https://github.com/acsandmann/rift/projects)
+* [Wiki](https://github.com/acsandmann/rift/wiki.html)
+* [Security](https://github.com/acsandmann/rift/security)
+* [Insights](https://github.com/acsandmann/rift/pulse)
+
+# Config
+
+[Jump to bottom](https://github.com/acsandmann/rift/wiki/Config/27dfed3b12bbfdb9f2f7b71f1ecb5a2c9b17ef2e.html#wiki-pages-box)
+
+acsandmann edited this page Aug 20, 2025
+·
+[20 revisions](https://github.com/acsandmann/rift/wiki/Config/_history.html)
+
+# Configuration Reference
+
+This document details the configuration of rift. Copy the example configuration from `rift/rift.default.toml` into `~/.rift.toml` (or `$HOME/.rift.toml`) and adjust to taste.
+
+---
+
+### [settings]
+
+Controls global runtime behavior.
+
+* `animate` (boolean)
+  + Master switch for window animations. `true`/`false`.
+* `animation_duration` (float)
+  + Seconds per animation. Typical values: `0.15`–`0.35`. `0.0` disables duration but keep `animate = false` to fully disable.
+* `animation_fps` (float)
+  + Frames per second for animations. Values > 0. Recommend 60–120.
+* `animation_easing` (string)
+  + Easing curve name (see the easing list at the end of this document).
+
+Example:
+
+```
+[settings]
+animate = true
+animation_duration = 0.2
+animation_fps = 100.0
+animation_easing = "ease_in_out_cubic"
+```
+
+Other focus/mouse settings:
+
+* `focus_follows_mouse` (boolean)
+  + If `true`, moving the mouse into a window focuses it.
+* `mouse_follows_focus` (boolean)
+  + If `true`, when focus changes, move the mouse pointer to the focused window.
+* `mouse_hides_on_focus` (boolean)
+  + If `true`, hide the mouse pointer after focusing a window.
+
+Auto-focus blacklist:
+
+* `auto_focus_blacklist` (array of strings)
+  + Provide application bundle IDs to prevent them from stealing focus or triggering workspace switches. Examples: `"com.apple.Spotlight"`, `"com.apple.dock"`.
+
+Run commands on start:
+
+* `run_on_start` (array of strings)
+  + The list of shell commands rift will run on startup. Useful for external integrations or launching helper scripts.
+  + When used with `rift-cli subscribe`, rift can send event data via environment variables (see the "run\_on\_start" examples below).
+
+---
+
+### [settings.layout]
+
+Layout system and layout-specific options.
+
+* `mode` (string)
+  + `"traditional"` (container-based like i3/sway) or `"bsp"` (binary space partitioning). Defaults to `"traditional"` if omitted.
+
+Subsections:
+
+* `[settings.layout.stack]`
+
+  + `stack_offset` (float): how much stacked windows stick out (px). `0.0` means windows fully overlap. Typical 30–50 for visible stacked edges.
+* `[settings.layout.gaps]`
+
+  + `[settings.layout.gaps.outer]`
+    - `top`, `left`, `bottom`, `right` (integers): gap between windows and screen edges.
+  + `[settings.layout.gaps.inner]`
+    - `horizontal`, `vertical` (integers): gaps between tiled windows.
+
+---
+
+### [settings.ui.\*]
+
+UI helpers and indicators.
+
+* `[settings.ui.menu_bar]`
+  + `enabled` (boolean): show menu bar workspace indicators.
+  + `show_empty` (boolean): if `true`, include empty workspaces (can cause menubar overflow on macOS).
+* `[settings.ui.stack_line]`
+  + experimental stack-line indicator (enabled boolean)
+  + `horiz_placement` (string): `"top"`/`"bottom"` for horizontal stacks
+  + `vert_placement` (string): `"left"`/`"right"` for vertical stacks
+  + `thickness` (float): thickness in pixels
+
+---
+
+### [virtual\_workspaces]
+
+Virtual workspace controls.
+
+* `enabled` (boolean)
+  + If `false`, rift acts like a tiler with a single space.
+* `default_workspace_count` (integer)
+  + Number of workspaces rift creates on startup (recommended 1–32).
+* `auto_assign_windows` (boolean)
+  + When `true`, new windows can be auto-assigned by `app_rules`.
+* `preserve_focus_per_workspace` (boolean)
+  + When `true`, rift remembers last-focused window per workspace.
+
+### workspace\_names
+
+* `workspace_names` (array of strings)
+  + Optional human-readable names for workspaces in indexed order.
+  + If fewer names than `default_workspace_count` are provided, remaining names default to `"Workspace X"`.
+
+---
+
+### app\_rules
+
+Array of objects: `app_rules = [ { ... }, ... ]`
+
+Fields per rule:
+
+* `app_id` (string): application bundle identifier (e.g., `"com.apple.Safari"`).
+* `app_name` (string): substring match on application name.
+* `title_regex` (string): regex matched against the window title. If present, it must be a valid regex or the rule will be ignored with a warning.
+* `title_substring` (string): literal substring match (case-sensitive) on window title.
+* `workspace` (integer): target workspace index (0-based). If absent or out of range, defaults to the active workspace.
+* `floating` (boolean): whether new windows matched by the rule should float.
+
+Matching semantics (important):
+
+* All non-empty fields in a rule are combined conjunctively (AND). A rule only matches if every specified field matches.
+* Multiple rules may match a window.
+  + If multiple matching rules share the same non-empty `app_id`, the rule with more specified conditions (more specific) wins.
+  + If matching rules do not share `app_id`, the rule with the highest specificity (most conditions) is chosen; ties broken by earlier config order.
+* Order matters when specificity ties occur.
+
+Examples:
+
+* Float dialogs for a specific app but tile others:
+
+```
+app_rules = [
+  { app_id = "com.example.X", title_regex = "Dialog", floating = true },
+  { app_id = "com.example.X", floating = false },
+]
+```
+
+* Float any "Preferences" window for any app:
+
+```
+app_rules = [
+  { title_substring = "Preferences", floating = true },
+]
+```
+
+---
+
+### [modifier\_combinations]
+
+Define reusable modifier combinations to avoid repetition in the keybindings table.
+
+* Example:
+
+```
+[modifier_combinations]
+comb1 = "Alt + Shift"
+```
+
+Then use `comb1` in `[keys]` entries like `"comb1 + H" = { move_node = "left" }`.
+
+---
+
+### [keys]
+
+Keybindings map strings (modifier + key) to commands or command objects.
+
+* Syntax: use quotes around the key combination: `"Alt + Shift + H" = ...`
+* Supported modifiers: `Alt`, `Ctrl`, `Shift`, `Meta` (Meta is Command on macOS).
+* Arrow keys can use `ArrowUp`/`Up`, etc. Spacing is flexible.
+
+Commands (examples supported by rift):
+
+* Single-string commands:
+  + `"toggle_space_activated"`, `"stack_windows"`, `"unstack_windows"`, `"toggle_fullscreen"`, `"save_and_exit"`, `"serialize"`, `"debug"`, `"show_timing"`, etc.
+* Object commands with parameters:
+  + `{ move_focus = "left" | "right" | "up" | "down" }`
+  + `{ move_node = "left" | "right" | "up" | "down" }` (move window in layout)
+  + `{ switch_to_workspace = N }` / `{ move_window_to_workspace = N }` where N is integer (0 indexed).
+  + `{ join_window = "left" | "right" | "up" | "down" }`
+  + `{ toggle_window_floating = true }` (or the string mapping as in the default)
+  + `toggle_focus_floating`, `toggle_focus_floating` will raise all floating windows
+
+Example bindings:
+
+```
+"Alt + H" = { move_focus = "left" }
+"Alt + Shift + Left" = { join_window = "left" }
+"Alt + 1" = { switch_to_workspace = 1 }
+```
+
+Note about `comb1` usage: define `comb1` in `[modifier_combinations]` and reference it in `[keys]`.
+
+---
+
+## run\_on\_start & event subscriptions
+
+`run_on_start` is an array of commands to run on startup. You can use `rift-cli subscribe` to listen to rift events and trigger external scripts. When rift invokes your subscribed command, it will set environment variables describing the event:
+
+* `RIFT_EVENT_TYPE` — `"workspace_changed"` | `"windows_changed"`
+* `RIFT_WORKSPACE_ID` — workspace id
+* `RIFT_WORKSPACE_NAME` — workspace name
+* `RIFT_WINDOW_COUNT` — number of windows (for `windows_changed`)
+* `RIFT_WINDOWS` — comma-separated window ids
+* `RIFT_EVENT_JSON` — full JSON payload of the event
+
+This makes integrating status bars or system indicators straightforward.
+
+---
+
+## Examples
+
+Minimal config to use BSP layout and 6 workspaces:
+
+```
+[settings]
+animate = true
+animation_duration = 0.15
+animation_easing = "ease_in_out_cubic"
+
+[settings.layout]
+mode = "bsp"
+
+[virtual_workspaces]
+enabled = true
+default_workspace_count = 6
+```
+
+App rule to float preferences windows across apps:
+
+```
+app_rules = [
+  { title_substring = "Preferences", floating = true },
+]
+```
+
+---
+
+## Matching semantics & ordering tips (recap)
+
+* More specific rules override less specific ones.
+* If specificity ties, earlier rules win.
+* Use `title_regex` when you need powerful matches; ensure regexes are valid (invalid ones will be ignored).
+* Use `title_substring` for simple literal matches (case-sensitive).
+
+---
+
+## Easing names (supported values)
+
+The following strings are valid for `animation_easing`:
+
+* `linear`
+* `ease_in_out`
+* `ease_in_sine`, `ease_out_sine`, `ease_in_out_sine`
+* `ease_in_quad`, `ease_out_quad`, `ease_in_out_quad`
+* `ease_in_cubic`, `ease_out_cubic`, `ease_in_out_cubic`
+* `ease_in_quart`, `ease_out_quart`, `ease_in_out_quart`
+* `ease_in_quint`, `ease_out_quint`, `ease_in_out_quint`
+* `ease_in_expo`, `ease_out_expo`, `ease_in_out_expo`
+* `ease_in_circ`, `ease_out_circ`, `ease_in_out_circ`
+
+## Toggle table of contents Pages 4
+
+* Loading
+  [Home](https://github.com/acsandmann/rift/wiki.html)
+
+  ### Uh oh!
+
+  There was an error while loading. [Please reload this page](https://github.com/acsandmann/rift/wiki/Config/27dfed3b12bbfdb9f2f7b71f1ecb5a2c9b17ef2e.html).
+* Loading
+  [Config](https://github.com/acsandmann/rift/wiki/Config.html)
+
+  ### Uh oh!
+
+  There was an error while loading. [Please reload this page](https://github.com/acsandmann/rift/wiki/Config/27dfed3b12bbfdb9f2f7b71f1ecb5a2c9b17ef2e.html).
+* Loading
+  [Integrations](https://github.com/acsandmann/rift/wiki/Integrations.html)
+
+  ### Uh oh!
+
+  There was an error while loading. [Please reload this page](https://github.com/acsandmann/rift/wiki/Config/27dfed3b12bbfdb9f2f7b71f1ecb5a2c9b17ef2e.html).
+* Loading
+  [Quick Start](https://github.com/acsandmann/rift/wiki/Quick-Start.html)
+
+  ### Uh oh!
+
+  There was an error while loading. [Please reload this page](https://github.com/acsandmann/rift/wiki/Config/27dfed3b12bbfdb9f2f7b71f1ecb5a2c9b17ef2e.html).
+
+### Clone this wiki locally
