@@ -15,6 +15,7 @@
     bun
     macism
     jnv
+    just
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces
@@ -46,6 +47,7 @@
       co = "codex";
       reload = "exec fish -l";
       c = "clear";
+      j = "just";
     };
   };
 
@@ -130,6 +132,7 @@
       "git-firefly"
       "tombi"
       "kconfig"
+      "just"
     ];
     userSettings = {
       "vim_mode" = true;
