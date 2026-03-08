@@ -54,3 +54,6 @@ status_line = [
   "weekly-limit",
   "codex-version",
 ]
+
+[notice]
+hide_rate_limit_model_nudge = true

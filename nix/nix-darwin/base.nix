@@ -34,6 +34,8 @@
   fonts.packages = with pkgs; [
     # HackGen Nerd Font を導入する。
     hackgen-nf-font
+    # SketchyBar のアプリアイコンフォントを導入する。
+    sketchybar-app-font
   ];
 
   # sudo 実行時の Touch ID 認証を有効にする。
@@ -140,6 +142,8 @@
       dock = {
         # Dock を自動的に隠す。
         autohide = true;
+        # Mission Control の Expose でウィンドウをアプリケーションごとにグループ化する。
+        expose-group-apps = true;
         # 拡大時の最大アイコンサイズを設定する。
         largesize = 64;
         # Dock アイコンの拡大表示を有効にする。

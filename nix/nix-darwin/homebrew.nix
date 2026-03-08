@@ -43,6 +43,7 @@
 
     masApps = {
       "Klack" = 6446206067;
+      "Xcode" = 497799835;
 
       # Safari Extensions
       "1Password for Safari" = 1569813296;
