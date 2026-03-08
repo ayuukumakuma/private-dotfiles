@@ -20,7 +20,7 @@ default_disable = false
 # - focus_follows_mouse: マウスをウィンドウ内へ移動するとフォーカスする
 # - mouse_follows_focus: フォーカス変更時に、マウスをフォーカス先ウィンドウへ移動する
 # - mouse_hides_on_focus: ウィンドウにフォーカス後、マウスカーソルを隠す
-focus_follows_mouse = false
+focus_follows_mouse = true
 mouse_follows_focus = true
 mouse_hides_on_focus = false
 # focus_follows_mouse_disable_hotkey は押下中のみ focus-follows-mouse を一時停止します
@@ -102,7 +102,7 @@ animate = true
 # 水平スクロールジェスチャーで列を切り替える
 enabled = true
 # 水平方向を反転する (左/右を入れ替え)
-invert_horizontal = false
+invert_horizontal = true
 # ジェスチャーに必要な指の本数
 fingers = 3
 # true の場合、端を超えてスクロールするとワークスペース切替を発火
@@ -139,6 +139,9 @@ right = 3
 horizontal = 3
 vertical = 3
 
+[settings.layout.gaps.per_display."00C2F5AD-378C-4CE8-8018-86623DED9D78".outer]
+top = 34
+
 # ディスプレイ別上書き設定の例:
 # 引用符付きキーをあなたのディスプレイ UUID に置き換えてください。上書きしたい値だけ指定します。
 # [settings.layout.gaps.per_display."11111111-2222-3333-4444-555555555555".outer]
@@ -152,7 +155,7 @@ vertical = 3
 # vertical = 8
 [settings.ui.menu_bar]
 # メニューバーのワークスペースインジケーターを有効化
-enabled = true
+enabled = false
 # 有効時、空のワークスペースも含めて表示します。これは
 # メニューバーを圧迫し、macOS によって自動的に隠されやすいため既定では無効です
 show_empty = false
@@ -178,7 +181,7 @@ spacing = 1.0
 
 # 実験的なミッションコントロール
 [settings.ui.mission_control]
-enabled = true
+enabled = false
 # ミッションコントロール入退場時のフェードアニメーションを有効化
 fade_enabled = true
 # macOS ネイティブの Mission Control フェードは約 180ms
@@ -306,7 +309,10 @@ workspace_names = []
 #
 # デフォルトでは app ルールはありません。必要に応じて下のルールを追加またはコメント解除してください。
 app_rules = [
-  { title_substring = "com.apple.ScreenContinuity", floating = true },
+  { title_substring = "Setting", floating = true },
+  { title_substring = "iPhone", floating = true },
+  { title_substring = "Ghostty", workspace = 1 },
+  { title_substring = "Zed", workspace = 1 }
 ]
 
 # キーバインドで再利用できる修飾キー組み合わせ

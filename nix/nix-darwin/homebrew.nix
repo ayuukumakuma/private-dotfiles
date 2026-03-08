@@ -3,7 +3,6 @@
 {
   homebrew = {
     enable = true;
-    greedyCasks = true;
 
     onActivation = {
       autoUpdate = true;
@@ -13,6 +12,7 @@
 
     taps = [
       "acsandmann/tap" # rift
+      "k1LoW/tap" # mo (markdown viewer)
     ];
 
     brews = [
@@ -21,6 +21,7 @@
         start_service = true;
       }
       "mas"
+      "mo"
     ];
 
     casks = [
@@ -35,6 +36,9 @@
       "chatgpt"
       "1password"
       "1password-cli"
+      "thebrowsercompany-dia"
+      "figma"
+      "logi-options+"
     ];
 
     masApps = {
@@ -43,6 +47,7 @@
       # Safari Extensions
       "1Password for Safari" = 1569813296;
       "uBlock Origin Lite" = 6745342698;
+      "没入型翻訳" = 6447957425;
     };
   };
 }

@@ -8,12 +8,8 @@ if [[ "${1:-}" == "--toggle" ]]; then
   exit 0
 fi
 
-hide_item() {
-  sketchybar --set "$NAME" drawing=off
-}
-
 hide_and_exit() {
-  hide_item
+  sketchybar --set "$NAME" drawing=off
   exit 0
 }
 
@@ -53,14 +49,17 @@ case "$state" in
   playing)
     status_icon=""
     scroll_texts="on"
+    fallback_label=""
     ;;
   paused)
     status_icon=""
     scroll_texts="off"
+    fallback_label="Paused"
     ;;
   stopped)
     status_icon=""
     scroll_texts="off"
+    fallback_label="Stopped"
     ;;
   *)
     hide_and_exit
@@ -75,7 +74,7 @@ if [[ -n "$track" && -n "$artist" ]]; then
 elif [[ -n "$track" ]]; then
   label="$track"
 else
-  label=""
+  label="$fallback_label"
 fi
 
 sketchybar --set "$NAME" drawing=on icon="$status_icon" label="$label" scroll_texts="$scroll_texts"

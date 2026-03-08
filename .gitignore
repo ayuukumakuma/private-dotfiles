@@ -1,1 +1,5 @@
 locals/**/*.local
+
+build/
+
+nix/result
