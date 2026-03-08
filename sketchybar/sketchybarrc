@@ -69,7 +69,49 @@ sketchybar --add item clock right \
     icon="$ICON_CLOCK" \
     icon.color=0xffe0af68 \
     script="$PLUGIN_DIR/clock.sh" \
-    update_freq=10
+    update_freq=10 \
+    popup.align=right \
+    popup.y_offset=6 \
+    popup.blur_radius=20 \
+    popup.height=24 \
+    popup.background.color=0xf01f2335 \
+    popup.background.corner_radius=8 \
+    popup.background.border_width=1 \
+    popup.background.border_color=0xff414868 \
+  --subscribe clock mouse.clicked mouse.exited.global system_woke
+
+sketchybar --add item clock_calendar_title popup.clock \
+  --set clock_calendar_title \
+    icon.drawing=off \
+    label="March 2026" \
+    label.font="HackGen35 Console NF:Bold:11.0" \
+    label.color=0xffe0af68 \
+    label.align=center \
+    label.padding_left=10 \
+    label.padding_right=10
+
+sketchybar --add item clock_calendar_days popup.clock \
+  --set clock_calendar_days \
+    icon.drawing=off \
+    label=" Su  Mo  Tu  We  Th  Fr  Sa " \
+    label.font="HackGen35 Console NF:Regular:10.0" \
+    label.color=0xff7aa2f7 \
+    label.align=center \
+    label.padding_left=10 \
+    label.padding_right=10
+
+for week in 1 2 3 4 5 6; do
+  sketchybar --add item "clock_calendar_week${week}" popup.clock \
+    --set "clock_calendar_week${week}" \
+      icon.drawing=off \
+      label="                            " \
+      label.font="HackGen35 Console NF:Regular:10.0" \
+      label.align=center \
+      label.padding_left=10 \
+      label.padding_right=10 \
+      background.height=18 \
+      background.corner_radius=4
+done
 
 sketchybar --add item battery right \
   --set battery \
@@ -93,6 +135,59 @@ sketchybar --add item input_source right \
     background.drawing=on \
     background.color=0x33242a3f \
   --subscribe input_source input_source_change system_woke
+
+sketchybar --add item codex_usage right \
+  --set codex_usage \
+    width=dynamic \
+    drawing=on \
+    icon=":openai:" \
+    icon.drawing=on \
+    icon.font="sketchybar-app-font:Regular:15.0" \
+    icon.padding_left=8 \
+    icon.padding_right=8 \
+    label="" \
+    label.drawing=off \
+    script="$PLUGIN_DIR/codex_usage.sh" \
+    click_script="" \
+    update_freq=300 \
+    updates=on \
+    background.drawing=on \
+    background.color=0x01000000 \
+    background.height=22 \
+    background.image="" \
+    background.image.drawing=off \
+    background.padding_left=2 \
+    background.padding_right=2 \
+    popup.align=right \
+    popup.y_offset=6 \
+    popup.blur_radius=20 \
+    popup.height=28 \
+    popup.background.color=0xf01f2335 \
+    popup.background.corner_radius=8 \
+    popup.background.border_width=1 \
+    popup.background.border_color=0xff414868 \
+  --subscribe codex_usage mouse.clicked mouse.exited.global system_woke
+
+sketchybar --add item codex_usage_5h popup.codex_usage \
+  --set codex_usage_5h \
+    icon.drawing=off \
+    label="5時間枠: 残り--  --:--にリセット" \
+    label.padding_left=12 \
+    label.padding_right=12
+
+sketchybar --add item codex_usage_weekly popup.codex_usage \
+  --set codex_usage_weekly \
+    icon.drawing=off \
+    label="週次枠: 残り--  --/-- --:--にリセット" \
+    label.padding_left=12 \
+    label.padding_right=12
+
+sketchybar --add item codex_usage_updated popup.codex_usage \
+  --set codex_usage_updated \
+    icon.drawing=off \
+    label="更新: --:--" \
+    label.padding_left=12 \
+    label.padding_right=12
 
 sketchybar --add item spotify right \
   --set spotify \
