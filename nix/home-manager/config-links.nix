@@ -17,7 +17,6 @@ in
     ghostty = {
       source = oos "${dotfilesRoot}/ghostty";
     };
-    "zed/settings.json".source = oos "${dotfilesRoot}/zed/settings.json";
   };
 
   home.file = {

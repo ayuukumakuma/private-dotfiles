@@ -13,9 +13,9 @@ CALENDAR_WEEK_ITEMS=(
   "clock_calendar_week5"
   "clock_calendar_week6"
 )
-CALENDAR_NORMAL_COLOR="0xffa9b1d6"
-CALENDAR_HIGHLIGHT_COLOR="0xff1f2335"
-CALENDAR_HIGHLIGHT_BACKGROUND="0xffe0af68"
+CALENDAR_NORMAL_COLOR="0xff5c5f77"
+CALENDAR_HIGHLIGHT_COLOR="0xffeff1f5"
+CALENDAR_HIGHLIGHT_BACKGROUND="0xffdf8e1d"
 
 set_clock_label() {
   sketchybar --set "$ITEM_NAME" label="$(date '+%H:%M')"

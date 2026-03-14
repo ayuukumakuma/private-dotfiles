@@ -143,7 +143,7 @@
       };
       "tab_size" = 2;
       "buffer_font_family" = "HackGen Console NF";
-      "icon_theme" = "Catppuccin Frappé";
+      "icon_theme" = "Catppuccin Latte";
       "telemetry" = {
         "diagnostics" = false;
         "metrics" = false;
@@ -151,10 +151,49 @@
       "session" = {
         "trust_all_worktrees" = true;
       };
+      "project_panel" = {
+        "button" = false;
+      };
+      "git_panel" = {
+        "button" = false;
+      };
+      "outline_panel" = {
+        "button" = false;
+      };
+      "collaboration_panel" = {
+        "button" = false;
+      };
+      "search" = {
+        "button" = false;
+      };
+      "terminal" = {
+        "button" = false;
+      };
+      "notification_panel" = {
+        "button" = false;
+      };
+      "agent" = {
+        "button" = false;
+      };
+      "tab_bar" = {
+        "show_nav_history_buttons" = false;
+        "show_tab_bar_buttons" = false;
+      };
+      "status_bar" = {
+        "cursor_position_button" = false;
+      };
+      "toolbar" = {
+        "breadcrumbs" = false;
+        "quick_actions" = false;
+        "selections_menu" = false;
+        "agent_review" = false;
+        "code_actions" = false;
+      };
       "ui_font_size" = 16;
       "buffer_font_size" = 13;
-      "theme" = "Catppuccin Frappé";
+      "theme" = "Catppuccin Latte Transparent";
     };
+    themes.catppuccin-transparent = ./zed/theme/catppuccin-transparent.json;
   };
 
   programs.gh.enable = true;
@@ -170,7 +209,7 @@
     colors = "auto";
     git = true;
     icons = "always";
-    theme = "catppuccin-frappe";
+    theme = "catppuccin-latte";
   };
 
   programs.jq.enable = true;
@@ -182,7 +221,7 @@
     service.enable = true;
     configType = "bash";
     config = {
-      source = ../../sketchybar;
+      source = ./sketchybar;
       recursive = true;
     };
   };

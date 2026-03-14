@@ -9,6 +9,22 @@ ICON_CLOCK=""
 ICON_BATTERY=""
 ICON_INPUT_SOURCE=""
 
+COLOR_PEACH="0xfffe640b"
+COLOR_YELLOW="0xffdf8e1d"
+COLOR_GREEN="0xff40a02b"
+COLOR_SKY="0xff04a5e5"
+COLOR_BLUE="0xff1e66f5"
+COLOR_LAVENDER="0xff7287fd"
+COLOR_TEXT="0xff4c4f69"
+COLOR_SUBTEXT1="0xff5c5f77"
+COLOR_SURFACE1="0xffbcc0cc"
+COLOR_BASE="0xffeff1f5"
+
+COLOR_ITEM_BG="0x66ccd0da"
+COLOR_INPUT_SOURCE_BG="0x66bcc0cc"
+COLOR_SPOTIFY_BG="0x6640a02b"
+COLOR_POPUP_BG="0xf0e6e9ef"
+
 bar=(
   height=32
   position=top
@@ -16,16 +32,16 @@ bar=(
   topmost=window
   padding_left=10
   padding_right=10
-  color=0xff1f2335
+  color="$COLOR_BASE"
 )
 
 defaults=(
   icon.font="HackGen35 Console NF:Bold:14.0"
-  icon.color=0xffcad3f5
+  icon.color="$COLOR_TEXT"
   icon.padding_left=8
   icon.padding_right=6
   label.font="HackGen35 Console NF:Regular:12.0"
-  label.color=0xffa9b1d6
+  label.color="$COLOR_SUBTEXT1"
   label.padding_left=0
   label.padding_right=10
   background.height=24
@@ -42,7 +58,7 @@ sketchybar --add event input_source_change AppleSelectedInputSourcesChangedNotif
 sketchybar --add item rift left \
   --set rift \
     icon="$ICON_RIFT" \
-    icon.color=0xff7aa2f7 \
+    icon.color="$COLOR_BLUE" \
     icon.padding_left=10 \
     icon.padding_right=8 \
     label.padding_left=4 \
@@ -51,7 +67,7 @@ sketchybar --add item rift left \
     update_freq=5 \
     drawing=off \
     background.drawing=on \
-    background.color=0x333a4a6a \
+    background.color="$COLOR_ITEM_BG" \
     background.padding_left=4 \
     background.padding_right=4 \
   --subscribe rift system_woke
@@ -59,7 +75,7 @@ sketchybar --add item rift left \
 sketchybar --add item front_app left \
   --set front_app \
     icon="$ICON_FRONT_APP" \
-    icon.color=0xffc0caf5 \
+    icon.color="$COLOR_LAVENDER" \
     script="$PLUGIN_DIR/front_app.sh" \
   --subscribe front_app front_app_switched system_woke
 
@@ -67,17 +83,17 @@ sketchybar --add item front_app left \
 sketchybar --add item clock right \
   --set clock \
     icon="$ICON_CLOCK" \
-    icon.color=0xffe0af68 \
+    icon.color="$COLOR_YELLOW" \
     script="$PLUGIN_DIR/clock.sh" \
     update_freq=10 \
     popup.align=right \
     popup.y_offset=6 \
     popup.blur_radius=20 \
     popup.height=24 \
-    popup.background.color=0xf01f2335 \
+    popup.background.color="$COLOR_POPUP_BG" \
     popup.background.corner_radius=8 \
     popup.background.border_width=1 \
-    popup.background.border_color=0xff414868 \
+    popup.background.border_color="$COLOR_SURFACE1" \
   --subscribe clock mouse.clicked mouse.exited.global system_woke
 
 sketchybar --add item clock_calendar_title popup.clock \
@@ -85,7 +101,7 @@ sketchybar --add item clock_calendar_title popup.clock \
     icon.drawing=off \
     label="March 2026" \
     label.font="HackGen35 Console NF:Bold:11.0" \
-    label.color=0xffe0af68 \
+    label.color="$COLOR_YELLOW" \
     label.align=center \
     label.padding_left=10 \
     label.padding_right=10
@@ -95,7 +111,7 @@ sketchybar --add item clock_calendar_days popup.clock \
     icon.drawing=off \
     label=" Su  Mo  Tu  We  Th  Fr  Sa " \
     label.font="HackGen35 Console NF:Regular:10.0" \
-    label.color=0xff7aa2f7 \
+    label.color="$COLOR_BLUE" \
     label.align=center \
     label.padding_left=10 \
     label.padding_right=10
@@ -116,24 +132,24 @@ done
 sketchybar --add item battery right \
   --set battery \
     icon="$ICON_BATTERY" \
-    icon.color=0xfff5a97f \
+    icon.color="$COLOR_PEACH" \
     script="$PLUGIN_DIR/battery.sh" \
     update_freq=30 \
     background.drawing=on \
-    background.color=0x333a4a6a \
+    background.color="$COLOR_ITEM_BG" \
   --subscribe battery power_source_change system_woke
 
 sketchybar --add item input_source right \
   --set input_source \
     icon="$ICON_INPUT_SOURCE" \
     icon.font="HackGen35 Console NF:Bold:14.0" \
-    icon.color=0xff7dcfff \
+    icon.color="$COLOR_SKY" \
     label="A" \
     script="$PLUGIN_DIR/input_source.sh" \
     label.padding_left=2 \
     label.padding_right=8 \
     background.drawing=on \
-    background.color=0x33242a3f \
+    background.color="$COLOR_INPUT_SOURCE_BG" \
   --subscribe input_source input_source_change system_woke
 
 sketchybar --add item codex_usage right \
@@ -162,10 +178,10 @@ sketchybar --add item codex_usage right \
     popup.y_offset=6 \
     popup.blur_radius=20 \
     popup.height=28 \
-    popup.background.color=0xf01f2335 \
+    popup.background.color="$COLOR_POPUP_BG" \
     popup.background.corner_radius=8 \
     popup.background.border_width=1 \
-    popup.background.border_color=0xff414868 \
+    popup.background.border_color="$COLOR_SURFACE1" \
   --subscribe codex_usage mouse.clicked mouse.exited.global system_woke
 
 sketchybar --add item codex_usage_5h popup.codex_usage \
@@ -192,7 +208,7 @@ sketchybar --add item codex_usage_updated popup.codex_usage \
 sketchybar --add item spotify right \
   --set spotify \
     icon="$ICON_SPOTIFY" \
-    icon.color=0xff9ece6a \
+    icon.color="$COLOR_GREEN" \
     script="$PLUGIN_DIR/spotify.sh" \
     click_script="$PLUGIN_DIR/spotify.sh --toggle" \
     update_freq=15 \
@@ -202,7 +218,7 @@ sketchybar --add item spotify right \
     label.scroll_duration=600 \
     label.max_chars=34 \
     background.drawing=on \
-    background.color=0x33304945 \
+    background.color="$COLOR_SPOTIFY_BG" \
   --subscribe spotify spotify_change media_change system_woke
 
 sketchybar --update
