@@ -88,8 +88,8 @@
       NSGlobalDomain = {
         # 時刻表示を 24 時間制にする。
         AppleICUForce24HourTime = true;
-        # 外観モードをダークにする（`null` でライト、`"Dark"` でダーク）。
-        AppleInterfaceStyle = "Dark";
+        # 外観モードをライトにする（`null` でライト、`"Dark"` でダーク）。
+        AppleInterfaceStyle = null;
         # キー長押し時のアクセントメニューを無効化する。
         ApplePressAndHoldEnabled = false;
         # スクロールで 1 ページ単位移動を有効にする。
@@ -151,7 +151,7 @@
         # 使用頻度順 Spaces の自動並べ替えを無効にする。
         mru-spaces = false;
         # Dock の表示位置を左にする（`"bottom" | "left" | "right"`）。
-        orientation = "left";
+        orientation = "bottom";
         # Dock に固定表示するアプリ一覧。
         persistent-apps = [
           {

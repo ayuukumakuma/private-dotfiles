@@ -1,8 +1,8 @@
 font-family = "HackGen Console NF"
 font-size = 12
 font-thicken = true
-theme = "Catppuccin Frappe"
-background-opacity = 0.7
+theme = "Catppuccin Latte"
+background-opacity = 0.8
 mouse-hide-while-typing = true
 maximize = true
 keybind = global:cmd+shift+backquote=toggle_quick_terminal

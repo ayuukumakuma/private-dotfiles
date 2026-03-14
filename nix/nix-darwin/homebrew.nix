@@ -38,6 +38,7 @@
       "1password-cli"
       "thebrowsercompany-dia"
       "figma"
+      "nani"
       "logi-options+"
     ];
 

@@ -142,6 +142,12 @@ vertical = 3
 [settings.layout.gaps.per_display."00C2F5AD-378C-4CE8-8018-86623DED9D78".outer]
 top = 34
 
+[settings.layout.gaps.per_display."961112C1-2F84-4C45-A4AC-2F4E441932E2".outer]
+top = 34
+
+[settings.layout.gaps.per_display."A254BC36-D83E-4A82-B8B7-2BF3BC61B334".outer]
+top = 34
+
 # ディスプレイ別上書き設定の例:
 # 引用符付きキーをあなたのディスプレイ UUID に置き換えてください。上書きしたい値だけ指定します。
 # [settings.layout.gaps.per_display."11111111-2222-3333-4444-555555555555".outer]
@@ -309,7 +315,7 @@ workspace_names = []
 #
 # デフォルトでは app ルールはありません。必要に応じて下のルールを追加またはコメント解除してください。
 app_rules = [
-  { title_substring = "Setting", floating = true },
+  { title_substring = "システム設定", floating = true },
   { title_substring = "iPhone", floating = true },
   { title_substring = "Ghostty", workspace = 1 },
   { title_substring = "Zed", workspace = 1 }

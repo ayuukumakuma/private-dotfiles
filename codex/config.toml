@@ -23,18 +23,6 @@ voice_transcription = true
 [mcp_servers.figma]
 url = "https://mcp.figma.com/mcp"
 
-[mcp_servers.playwright]
-args = ["@playwright/mcp@latest"]
-command = "npx"
-
-[mcp_servers.vibe_kanban]
-args = [
-  "-y",
-  "vibe-kanban@latest",
-  "--mcp",
-]
-command = "npx"
-
 [projects."/Users/ayuu/ghq/github.com/ayuukumakuma"]
 trust_level = "trusted"
 
