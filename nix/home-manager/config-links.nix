@@ -17,6 +17,9 @@ in
     ghostty = {
       source = oos "${dotfilesRoot}/ghostty";
     };
+    opencode = {
+      source = oos "${dotfilesRoot}/opencode";
+    };
   };
 
   home.file = {

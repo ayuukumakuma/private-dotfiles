@@ -317,6 +317,7 @@ workspace_names = []
 app_rules = [
   { title_substring = "システム設定", floating = true },
   { title_substring = "iPhone", floating = true },
+  { title_substring = "Nani", floating = true },
   { title_substring = "Ghostty", workspace = 1 },
   { title_substring = "Zed", workspace = 1 }
 ]

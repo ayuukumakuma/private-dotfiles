@@ -13,6 +13,7 @@
     taps = [
       "acsandmann/tap" # rift
       "k1LoW/tap" # mo (markdown viewer)
+      "anomalyco/tap" # opencode
     ];
 
     brews = [
@@ -22,6 +23,7 @@
       }
       "mas"
       "mo"
+      "opencode"
     ];
 
     casks = [
@@ -40,6 +42,7 @@
       "figma"
       "nani"
       "logi-options+"
+      "icon-composer"
     ];
 
     masApps = {

@@ -45,6 +45,7 @@
     shellAbbrs = {
       g = "git";
       co = "codex";
+      oc = "opencode";
       reload = "exec fish -l";
       c = "clear";
       j = "just";
@@ -109,10 +110,52 @@
     enableFishIntegration = true;
   };
 
+  programs.yazi = {
+    enable = true;
+    enableFishIntegration = true;
+    shellWrapperName = "y";
+    flavors = {
+      catppuccin-latte = "${
+        pkgs.fetchFromGitHub {
+          owner = "yazi-rs";
+          repo = "flavors";
+          rev = "9511cb09cadcbf57e39a46b06a52d00957177175";
+          hash = "sha256-3RR8mi7CcVMDMitdTdaonFmfAIkeOzWK/CVKQmomIhE=";
+        }
+      }/catppuccin-latte.yazi";
+    };
+    settings = {
+      opener = {
+        edit = [
+          {
+            run = "zed --wait %s";
+            block = true;
+            for = "unix";
+          }
+        ];
+      };
+    };
+    theme = {
+      flavor = {
+        dark = "catppuccin-latte";
+        light = "catppuccin-latte";
+      };
+    };
+    extraPackages = with pkgs; [
+      file
+      ffmpeg
+      poppler
+      zoxide
+      resvg
+      imagemagick
+      p7zip
+    ];
+  };
+
   programs.bat = {
     enable = true;
     config = {
-      theme = "Catppuccin Frappe";
+      theme = "Catppuccin Latte";
     };
   };
 
@@ -133,8 +176,16 @@
       "tombi"
       "kconfig"
       "just"
+      "swift"
+      "package-swift-lsp"
+      "editorconfig"
     ];
     userSettings = {
+      "agent_servers" = {
+        "opencode" = {
+          "type" = "registry";
+        };
+      };
       "vim_mode" = true;
       "autosave" = {
         "after_delay" = {
