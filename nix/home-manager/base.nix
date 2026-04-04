@@ -11,11 +11,10 @@
     nil
     nixd
     neovim
-    nodejs_25
-    bun
     macism
     jnv
     just
+    github-copilot-cli
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces
@@ -276,4 +275,7 @@
       recursive = true;
     };
   };
+
+  programs.aerospace.enable = true;
+  programs.tmux.enable = true;
 }

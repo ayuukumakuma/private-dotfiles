@@ -11,8 +11,8 @@ in
   xdg.enable = true;
 
   xdg.configFile = {
-    rift = {
-      source = oos "${dotfilesRoot}/rift";
+    aerospace = {
+      source = oos "${dotfilesRoot}/aerospace";
     };
     ghostty = {
       source = oos "${dotfilesRoot}/ghostty";

@@ -15,8 +15,8 @@
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
-      # チャットアプリ Discord を unfree 許可リストに含める。
       "discord"
+      "github-copilot-cli"
     ];
 
   # 対象ユーザーの macOS アカウント設定を宣言する。
