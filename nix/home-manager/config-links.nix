@@ -28,7 +28,8 @@ in
   home.file = {
     ".agents".source = oos "${dotfilesRoot}/agents";
     ".codex/config.toml".source = oos "${dotfilesRoot}/codex/config.toml";
-    ".codex/AGENTS.md".source = oos "${dotfilesRoot}/codex/AGENTS.md";
+    ".codex/AGENTS.md".source = oos "${dotfilesRoot}/agents/AGENTS.md";
+    ".copilot/copilot-instructions.md".source = oos "${dotfilesRoot}/agents/AGENTS.md";
     ".config/git/config.local".source = oos "${dotfilesRoot}/locals/git/config.local";
   };
 }
