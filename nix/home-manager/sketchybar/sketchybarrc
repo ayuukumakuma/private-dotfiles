@@ -2,6 +2,7 @@
 
 CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
+export AEROSPACE_BIN="${AEROSPACE_BIN:-/etc/profiles/per-user/$USER/bin/aerospace}"
 ICON_FRONT_APP=""
 ICON_SPOTIFY=""
 ICON_CLOCK=""
@@ -53,11 +54,45 @@ sketchybar --bar "${bar[@]}" \
 
 sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
 sketchybar --add event input_source_change AppleSelectedInputSourcesChangedNotification
+sketchybar --add event aerospace_workspace_change
+
+for i in $(seq 1 9); do
+  sketchybar --add item "workspace.$i" left \
+    --set "workspace.$i" \
+      icon="$i" \
+      icon.drawing=on \
+      icon.font="HackGen35 Console NF:Bold:13.0" \
+      icon.color="$COLOR_TEXT" \
+      icon.padding_left=8 \
+      icon.padding_right=8 \
+      label="" \
+      label.drawing=off \
+      label.font="HackGen35 Console NF:Regular:11.0" \
+      label.color="$COLOR_SUBTEXT1" \
+      label.padding_left=0 \
+      label.padding_right=0 \
+      padding_left=2 \
+      padding_right=2 \
+      background.drawing=off \
+      background.color="$COLOR_ITEM_BG" \
+      click_script="$AEROSPACE_BIN workspace $i" \
+      script="$PLUGIN_DIR/aerospace_workspace.sh $i" \
+    --subscribe "workspace.$i" aerospace_workspace_change system_woke
+
+done
+
+current_workspace="$("$AEROSPACE_BIN" list-workspaces --focused 2>/dev/null)"
+if [ -n "$current_workspace" ]; then
+  sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$current_workspace"
+fi
 
 sketchybar --add item front_app left \
   --set front_app \
     icon="$ICON_FRONT_APP" \
+    icon.font="sketchybar-app-font:Regular:15.0" \
     icon.color="$COLOR_LAVENDER" \
+    label.color="$COLOR_SUBTEXT1" \
+    update_freq=5 \
     script="$PLUGIN_DIR/front_app.sh" \
   --subscribe front_app front_app_switched system_woke
 

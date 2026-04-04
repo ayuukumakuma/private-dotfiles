@@ -48,7 +48,8 @@
       reload = "exec fish -l";
       c = "clear";
       j = "just";
-      cpi = "copilot";
+      cop = "copilot";
+      copm = "copilot --model gpt-5.4-mini";
       tm = "tmux";
     };
   };
@@ -284,14 +285,4 @@
   };
 
   programs.aerospace.enable = true;
-  services.jankyborders = {
-    enable = true;
-    settings = {
-      style = "round";
-      width = 5.0;
-      hidpi = "on";
-      active_color = "0xc0ff00f2";
-      inactive_color = "0xff0080ff";
-    };
-  };
 }

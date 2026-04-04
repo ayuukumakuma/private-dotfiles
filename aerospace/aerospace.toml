@@ -75,6 +75,14 @@ persistent-workspaces = [
   # "Z"
 ]
 
+# ワークスペースが切り替わるたびに実行されるコールバック
+# 詳細: https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
+exec-on-workspace-change = [
+  "/bin/bash",
+  "-c",
+  "/etc/profiles/per-user/$USER/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+]
+
 # バインドモードが変わるたびに実行されるコールバック
 # 詳細: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 # 詳細: https://nikitabobko.github.io/AeroSpace/commands#mode
