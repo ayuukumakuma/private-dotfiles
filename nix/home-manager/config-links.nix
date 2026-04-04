@@ -20,6 +20,9 @@ in
     opencode = {
       source = oos "${dotfilesRoot}/opencode";
     };
+    tmux = {
+      source = oos "${dotfilesRoot}/tmux";
+    };
   };
 
   home.file = {

@@ -6,22 +6,22 @@
   home.packages = with pkgs; [
     curl
     wget
-    (callPackage ../pkgs/site2skill.nix { })
-    ghq
     nil
     nixd
-    neovim
     macism
     jnv
     just
     github-copilot-cli
+    tmux
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces
     fishPlugins.puffer
     fishPlugins.fish-bd
+    (callPackage ../pkgs/site2skill.nix { })
   ];
 
+  programs.neovim.enable = true;
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -48,6 +48,8 @@
       reload = "exec fish -l";
       c = "clear";
       j = "just";
+      cpi = "copilot";
+      tm = "tmux";
     };
   };
 
@@ -178,6 +180,7 @@
       "swift"
       "package-swift-lsp"
       "editorconfig"
+      "tmux"
     ];
     userSettings = {
       "agent_servers" = {
@@ -242,6 +245,10 @@
       "ui_font_size" = 16;
       "buffer_font_size" = 13;
       "theme" = "Catppuccin Latte Transparent";
+      "edit_predictions" = {
+        "provider" = "copilot";
+        "mode" = "eager";
+      };
     };
     themes.catppuccin-transparent = ./zed/theme/catppuccin-transparent.json;
   };
@@ -277,5 +284,14 @@
   };
 
   programs.aerospace.enable = true;
-  programs.tmux.enable = true;
+  services.jankyborders = {
+    enable = true;
+    settings = {
+      style = "round";
+      width = 5.0;
+      hidpi = "on";
+      active_color = "0xc0ff00f2";
+      inactive_color = "0xff0080ff";
+    };
+  };
 }

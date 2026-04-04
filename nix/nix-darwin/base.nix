@@ -110,6 +110,8 @@
         NSAutomaticSpellingCorrectionEnabled = false;
         # タップでクリック（マウス設定）を有効にする。
         "com.apple.mouse.tapBehavior" = 1;
+        # ウィンドウ上の任意の場所を長押しすることでウィンドウを移動できるようにするかどうか
+        NSWindowShouldDragOnGesture = true;
       };
 
       SoftwareUpdate = {
