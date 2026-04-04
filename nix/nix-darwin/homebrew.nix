@@ -11,16 +11,11 @@
     };
 
     taps = [
-      "acsandmann/tap" # rift
       "k1LoW/tap" # mo (markdown viewer)
       "anomalyco/tap" # opencode
     ];
 
     brews = [
-      {
-        name = "rift";
-        start_service = true;
-      }
       "mas"
       "mo"
       "opencode"

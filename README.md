@@ -8,7 +8,6 @@ macOS 向けの個人用 dotfiles / 開発環境設定リポジトリです。
 - `nix/`: nix-darwin + home-manager による環境定義と運用スクリプト
 - `codex/`: Codex CLI の設定
 - `ghostty/`: Ghostty の設定
-- `rift/`: Rift の設定
 - `zed/`: Zed の設定
 - `locals/`: 端末・アカウント固有のローカル設定テンプレート
 - `agents/`: Codex Skills 定義

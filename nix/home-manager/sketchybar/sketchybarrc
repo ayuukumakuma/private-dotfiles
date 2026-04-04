@@ -2,7 +2,6 @@
 
 CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
-ICON_RIFT=""
 ICON_FRONT_APP=""
 ICON_SPOTIFY=""
 ICON_CLOCK=""
@@ -54,23 +53,6 @@ sketchybar --bar "${bar[@]}" \
 
 sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
 sketchybar --add event input_source_change AppleSelectedInputSourcesChangedNotification
-
-sketchybar --add item rift left \
-  --set rift \
-    icon="$ICON_RIFT" \
-    icon.color="$COLOR_BLUE" \
-    icon.padding_left=10 \
-    icon.padding_right=8 \
-    label.padding_left=4 \
-    label.padding_right=12 \
-    script="$PLUGIN_DIR/rift.sh" \
-    update_freq=5 \
-    drawing=off \
-    background.drawing=on \
-    background.color="$COLOR_ITEM_BG" \
-    background.padding_left=4 \
-    background.padding_right=4 \
-  --subscribe rift system_woke
 
 sketchybar --add item front_app left \
   --set front_app \
