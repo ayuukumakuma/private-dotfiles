@@ -13,6 +13,7 @@
     just
     github-copilot-cli
     tmux
+    ghq
     fishPlugins.z
     fishPlugins.tide
     fishPlugins.pisces

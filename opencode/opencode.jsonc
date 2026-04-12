@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": true,
+  "provider": {
+    "sakuraAI": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.ai.sakura.ad.jp/v1",
+        "apiKey": "da3a5e06-a5d9-4a06-9df0-ef1c8ebf3c74:owHxiDO/70YALAIpmOlnX+YnraNADhv8Xb/Gbvcz",
+      },
+      "models": {
+        "preview/Kimi-K2.5": {
+          "tool_call": true,
+        },
+        "Qwen3-Coder-480B-A35B-Instruct-FP8": {
+          "tool_call": true,
+        },
+      },
+    },
+  },
+  "mcp": {
+    "codex": {
+      "type": "local",
+      "command": ["codex", "mcp-server"],
+    },
+  },
+}

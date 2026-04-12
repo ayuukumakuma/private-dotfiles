@@ -38,6 +38,7 @@
       "nani"
       "logi-options+"
       "icon-composer"
+      "modrinth"
     ];
 
     masApps = {

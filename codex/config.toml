@@ -1,8 +1,8 @@
 #:schema https://developers.openai.com/codex/config-schema.json
 
 model = "gpt-5.4"
-model_reasoning_effort = "medium"
-personality = "friendly"
+model_reasoning_effort = "high"
+personality = "pragmatic"
 plan_mode_reasoning_effort = "high"
 suppress_unstable_features_warning = true
 web_search = "live"
@@ -54,6 +54,12 @@ approval_mode = "approve"
 approval_mode = "approve"
 
 [mcp_servers.xcode.tools.XcodeListNavigatorIssues]
+approval_mode = "approve"
+
+[mcp_servers.xcode.tools.DocumentationSearch]
+approval_mode = "approve"
+
+[mcp_servers.xcode.tools.XcodeLS]
 approval_mode = "approve"
 
 [projects."/Users/ayuu/ghq/github.com/ayuukumakuma"]
