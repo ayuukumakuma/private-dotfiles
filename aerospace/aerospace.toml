@@ -106,7 +106,7 @@ inner.horizontal = 5
 inner.vertical = 5
 outer.left = 5
 outer.bottom = 5
-outer.top = [{ monitor."DELL*" = 38 }, 5]
+outer.top = [{ monitor."DELL*" = 38 }, { monitor."LG*" = 38 }, 5]
 outer.right = 5
 
 # 'main' バインドモードの宣言
